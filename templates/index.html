@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Phone Info Page</title>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <a href="/">Home</a>
+        </div>
+        <form class="search-form" action="/search" method="POST">
+            <input type="text" name="title" required="true" placeholder="Search by phone name">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Product List</h1>
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown()" aria-haspopup="true" aria-expanded="false">Phone Category</button>
+                <div class="dropdown-content" aria-labelledby="dropdownMenuButton">
+                    {% for category in categories %}
+                    <a href="/category/{{ category.category }}">{{ category.category }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="product-list">
+            {% for product in products %}
+            <div class="product">
+                <img src="{{ product.img_src }}" alt="{{ product.title }}">
+                <h4>{{ product.title }}</h4>
+                <p >{{ product.price }}</p>
+                <a href="{{ product.link_href }}">More Info</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown() {
+            var dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName('dropdown');
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
